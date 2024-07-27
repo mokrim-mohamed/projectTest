@@ -48,7 +48,7 @@ pipeline {
             steps {
                 script {
                     // Login à Docker Hub
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials-id') {
+                    docker.withRegistry('https://hub.docker.com/u/mokrim/test', 'dockerhub-credentials-id') {
                         // Tag et Push de l'image Docker
                         docker.image('votre-image:latest').push('latest')
                     }
@@ -56,18 +56,13 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
-            steps {
-                // Déployer l'image Docker (par exemple, avec docker-compose)
-                sh 'docker-compose up -d'
-            }
-        }
+      
     }
 
     post {
         always {
             // Clean up
-            sh 'docker system prune -f'
+         
         }
     }
 }
