@@ -46,6 +46,11 @@ pipeline {
             sh 'echo login succes'
             }
         }
+    stage('push'){
+        steps {
+            sh 'docker push test/test:latest'
+            }
+        }
         
 }
 
