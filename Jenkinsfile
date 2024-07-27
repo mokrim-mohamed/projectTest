@@ -35,30 +35,7 @@ pipeline {
             }
         }
 
-        stage('Push Image') {
-            when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
-                }
-            }
-            steps {
-                script {
-                    // Login à Docker Hub
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials-id') {
-                        // Tag et Push de l'image Docker
-                        docker.image('votre-image:latest').push('latest')
-                    }
-                }
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                // Déployer l'image Docker (par exemple, avec docker-compose)
-                sh 'docker-compose up -d'
-            }
-        }
-    }
+     
 
     post {
         success {
