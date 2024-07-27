@@ -1,5 +1,9 @@
 pipeline {
     agent any  // Utiliser n'importe quel agent disponible
+    environment{
+        DOCKERHUB_CREDENTIALS=credentials('privateKey__mokrim')
+    }
+
 
     stages {
         stage('Checkout') {
@@ -36,15 +40,21 @@ pipeline {
                 }
             }
         }
+    stage('Login'){
+        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-sdin'
+        sh 'echo login succes
     }
+}
 
     post {
         success {
             echo 'Le pipeline s\'est terminé avec succès.'
+            sh 'docker logout'
         }
 
         failure {
             echo 'Le pipeline a échoué.'
+            sh 'docker logout'
         }
     }
 }
