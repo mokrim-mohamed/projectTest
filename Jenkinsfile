@@ -19,6 +19,7 @@ pipeline {
                   dir(DOCKER_BIN) {
                     // Exemple de commande pour construire votre application dans le répertoire de travail distant
                     sh 'docker build -t votre-image:latest .'
+                    sh 'echo creation fini'
                 }
              
             }
