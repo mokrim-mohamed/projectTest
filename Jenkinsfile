@@ -34,15 +34,28 @@ pipeline {
                 }
             }
         }
+        stage('test connection'){
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
+        stage('Push Image') {
+            when {
+                expression {
+                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+                }
+            }
+            steps {
+                script {
+                    // Login à Docker Hub
+                    docker.withRegistry('https://hub.docker.com/u/mokrim/test', 'dockerhub-credentials-id') {
+                        // Tag et Push de l'image Docker
+                        docker.image('votre-image:latest').push('latest')
+                    }
+                }
+            }
+        }
 
-     
-
-    post {
-        success {
-        echo 'Pipeline succeeded!'
-    }
-    failure {
-        echo 'Pipeline failed.'
-    }
+      
     }
 }
