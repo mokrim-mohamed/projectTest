@@ -26,6 +26,16 @@ pipeline {
                 }
             }
         }
+     stage('Build Docker Image') {
+        steps {
+            script {
+                    // Construire l'image Docker
+                sh 'docker build -t test/test:latest .'
+                echo 'image a ete cree'
+
+                }
+            }
+        }
     }
 
     post {
