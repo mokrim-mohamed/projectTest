@@ -9,42 +9,36 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout du code source depuis GitHubgit url: 'https://github.com/mokrim-mohamed/projetArchi', branch: 'main'
-                git branch: 'developper', url: https://github.com/mokrim-mohamed/projetArchi'
+                // Checkout du code source depuis GitHub
+                git branch: 'developper', url: 'https://github.com/mokrim-mohamed/projectTest'
             }
         }
 
         stage('Build') {
             steps {
-                script {
-                    // Exemple de commande pour construire votre image Docker
-                    sh "${env.DOCKER_BIN} build -t votre-image:latest ."
+                  dir(DOCKER_BIN) {
+                    // Exemple de commande pour construire votre application dans le répertoire de travail distant
+                    sh 'docker build -t votre-image:latest .'
                 }
+             
             }
         }
 
         stage('Test') {
             steps {
+                // Lancer les tests dans un conteneur Docker
                 script {
-                    // Lancer les tests dans un conteneur Docker
                     docker.image('votre-image:latest').inside {
                         sh './run_tests.sh' // Script ou commande pour lancer les tests
                     }
                 }
             }
         }
-        
-        stage('Test Docker Connection') {
-            steps {
-                script {
-                    // Se connecter à Docker Hub pour vérifier la connexion
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials-id', passwordVariable: 'DOCKERHUB_PSW', usernameVariable: 'DOCKERHUB_USR')]) {
-                        sh "${env.DOCKER_BIN} login -u ${env.DOCKERHUB_USR} -p ${env.DOCKERHUB_PSW}"
-                    }
-                }
+        stage('test connection'){
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
             }
         }
-
         stage('Push Image') {
             when {
                 expression {
@@ -53,17 +47,16 @@ pipeline {
             }
             steps {
                 script {
-                    // Pousser l'image vers Docker Hub
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials-id') {
+                    // Login à Docker Hub
+                    docker.withRegistry('https://hub.docker.com/u/mokrim/test', 'dockerhub-credentials-id') {
+                        // Tag et Push de l'image Docker
                         docker.image('votre-image:latest').push('latest')
                     }
                 }
             }
         }
-    }
-
-    post {
-
+post {
+        
         success {
             echo 'Pipeline succeeded!'
         }
@@ -71,4 +64,5 @@ pipeline {
             echo 'Pipeline failed.'
         }
     }
-}
+      
+    }
