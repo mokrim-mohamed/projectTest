@@ -15,6 +15,17 @@ pipeline {
                 sh 'echo "Le code a été récupéré avec succès et le pipeline est en cours d\'exécution."'
             }
         }
+    stage('Check Docker') {
+        steps {
+            script {
+                    // Vérifier que Docker est accessible et obtenir la version
+                sh 'docker --version'
+                    
+                    // Optionnel : Exécuter un conteneur Docker basique pour vérifier que Docker fonctionne correctement
+                sh 'docker run --rm hello-world'
+                }
+            }
+        }
     }
 
     post {
