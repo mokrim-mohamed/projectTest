@@ -34,7 +34,11 @@ pipeline {
                 }
             }
         }
-
+        stage('test connection'){
+            steps{
+                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+            }
+        }
         stage('Push Image') {
             when {
                 expression {
@@ -44,26 +48,24 @@ pipeline {
             steps {
                 script {
                     // Login à Docker Hub
-                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials-id') {
+                    docker.withRegistry('https://hub.docker.com/u/mokrim/test', 'dockerhub-credentials-id') {
                         // Tag et Push de l'image Docker
                         docker.image('votre-image:latest').push('latest')
                     }
                 }
             }
         }
-
-        stage('Deploy') {
-            steps {
-                // Déployer l'image Docker (par exemple, avec docker-compose)
-                sh 'docker-compose up -d'
-            }
-        }
+post {
+    always {
+        // Nettoyer les ressources Docker
+        sh "${env.DOCKER_BIN} system prune -f"
     }
-
-    post {
-        always {
-            // Clean up
-            sh 'docker system prune -f'
-        }
+    success {
+        echo 'Pipeline succeeded!'
+    }
+    failure {
+        echo 'Pipeline failed.'
     }
 }
+
+    }
