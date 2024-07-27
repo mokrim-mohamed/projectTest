@@ -61,9 +61,11 @@ pipeline {
     }
 
     post {
-        always {
-            // Clean up
-            sh 'docker system prune -f'
-        }
+        success {
+        echo 'Pipeline succeeded!'
+    }
+    failure {
+        echo 'Pipeline failed.'
+    }
     }
 }
