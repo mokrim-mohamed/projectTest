@@ -48,7 +48,7 @@ pipeline {
         }
     stage('push'){
         steps {
-            sh 'docker push test/test:latest'
+            sh 'docker push mokrim/test:latest'
             }
         }
         
