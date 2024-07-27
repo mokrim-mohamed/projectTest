@@ -41,9 +41,12 @@ pipeline {
             }
         }
     stage('Login'){
-        sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-sdin'
-        sh 'echo login succes'
-    }
+        steps {
+            sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-sdin'
+            sh 'echo login succes'
+            }
+        }
+        
 }
 
     post {
