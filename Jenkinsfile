@@ -56,13 +56,15 @@ pipeline {
             }
         }
 post {
-        
-        success {
-            echo 'Pipeline succeeded!'
-        }
-        failure {
-            echo 'Pipeline failed.'
-        }
+    always {
+        // Nettoyer les ressources Docker
+        sh "${env.DOCKER_BIN} system prune -f"
     }
-      
+    success {
+        echo 'Pipeline succeeded!'
     }
+    failure {
+        echo 'Pipeline failed.'
+    }
+}
+
