@@ -9,8 +9,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout du code source depuis GitHub
-                git branch: 'develop', url: 'https://github.com/mokrim-mohamed/projectTest.git'
+                // Checkout du code source depuis GitHubgit url: 'https://github.com/mokrim-mohamed/projetArchi', branch: 'main'
+                git branch: 'developper', url: https://github.com/mokrim-mohamed/projetArchi'
             }
         }
 
