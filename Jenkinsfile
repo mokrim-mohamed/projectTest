@@ -1,7 +1,7 @@
 pipeline {
     agent any  // Utiliser n'importe quel agent disponible
     environment{
-        DOCKERHUB_CREDENTIALS=credentials('privateKey__mokrim')
+        DOCKERHUB_CREDENTIALS=credentials('id_token_prv')
     }
 
 
