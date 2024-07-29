@@ -38,7 +38,7 @@ pipeline {
             script {
                     // Construire l'image Docker
                 
-                sh 'docker build -t mokrim/test:latest .'
+                sh 'docker build -t mokrim/test:nana .'
                 echo 'image a ete cree'
 
                 }
@@ -53,7 +53,7 @@ pipeline {
     stage('push'){
         steps {
             
-            sh 'docker push mokrim/test:latest'
+            sh 'docker push mokrim/test:nana'
             }
         }
     stage('Deploy to GCP') {
@@ -63,7 +63,7 @@ pipeline {
                     
                     // Commande SSH pour se connecter à l'instance GCP
                     def sshCommand = """
-                        docker pull mokrim/test:latest
+                        docker pull mokrim/test:nana
                         docker stop my_container || true
                         docker rm my_container || true
                         docker run -d --name my_container -p 80:80 mokrim/test:${buildTag}
