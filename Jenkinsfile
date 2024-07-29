@@ -2,6 +2,9 @@ pipeline {
     agent any  // Utiliser n'importe quel agent disponible
     environment{
         DOCKERHUB_CREDENTIALS=credentials('id_token_prv')
+        SSH_CREDENTIALS = credentials('SSH_GCP')
+         GCP_INSTANCE_IP = '34.41.224.203'
+        
     }
 
 
@@ -51,6 +54,26 @@ pipeline {
         steps {
             
             sh 'docker push mokrim/test:latest'
+            }
+        }
+    stage('Deploy to GCP') {
+            steps {
+                script {
+                    
+                    
+                    // Commande SSH pour se connecter à l'instance GCP
+                    def sshCommand = """
+                        docker pull mokrim/test:latest
+                        docker stop my_container || true
+                        docker rm my_container || true
+                        docker run -d --name my_container -p 80:80 mokrim/test:${buildTag}
+                    """
+
+                    // Exécuter les commandes SSH sur l'instance GCP
+                     sshagent([SSH_CREDENTIALS]) {
+                        sh "ssh -o StrictHostKeyChecking=no mokrimmohamed2016@${GCP_INSTANCE_IP} '${sshCommand}'"
+                    }
+                }
             }
         }
         
