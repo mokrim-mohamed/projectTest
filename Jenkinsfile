@@ -3,6 +3,8 @@ pipeline {
     environment{
         DOCKERHUB_CREDENTIALS=credentials('id_token_prv')
         KEY_FILE = credentials('gcp_key_jenkins')
+        CLOUDSDK_CORE8PROJECT='protean-depot-430512-d1'
+
     }
 
 
@@ -55,6 +57,18 @@ pipeline {
 
             }
         }
+    stage('Deploy to GCP') {
+       steps {
+           script {
+                    // Authenticate with Google Cloud Platform using the GCP key file
+             withCredentials([file(credentialsId: 'gcp_key_jenkins', variable: 'GCP_KEY_FILE')]) {
+                sh '''
+                    gcloud auth activate-service-account --key-file=$GCP_KEY_FILE'
+                    gcloud compute zone list
+                    '''
+                    }
+                }
+            }
         
 }
 
