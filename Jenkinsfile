@@ -34,7 +34,7 @@ pipeline {
         steps {
             script {
                     // Construire l'image Docker
-                sh 'docker build -t mokrim/test:latest .'
+                sh 'docker build -t mokrim/test:${buildTag} .'
                 echo 'image a ete cree'
 
                 }
@@ -48,7 +48,7 @@ pipeline {
         }
     stage('push'){
         steps {
-            sh 'docker push mokrim/test:latest'
+            sh 'docker push mokrim/image:${buildTag}'
             }
         }
         
