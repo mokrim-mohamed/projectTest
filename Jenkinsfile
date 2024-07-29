@@ -67,6 +67,7 @@ pipeline {
                         docker stop my_container || true
                         docker rm my_container || true
                         docker run -d --name my_container -p 80:80 mokrim/test:${buildTag}
+                    """
                     sh 'echo gcp start '
                     
                      sshagent([SSH_CREDENTIALS]) {
