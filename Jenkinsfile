@@ -67,11 +67,11 @@ pipeline {
                         docker stop my_container || true
                         docker rm my_container || true
                         docker run -d --name my_container -p 80:80 mokrim/test:${buildTag}
-                    """
-
-                    // Exécuter les commandes SSH sur l'instance GCP
+                    sh 'echo gcp start '
+                    
                      sshagent([SSH_CREDENTIALS]) {
                         sh "ssh -o StrictHostKeyChecking=no mokrimmohamed2016@${GCP_INSTANCE_IP} '${sshCommand}'"
+                        sh 'echo gcp fin'
                     }
                 }
             }
