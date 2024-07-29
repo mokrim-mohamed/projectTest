@@ -2,6 +2,7 @@ pipeline {
     agent any  // Utiliser n'importe quel agent disponible
     environment{
         DOCKERHUB_CREDENTIALS=credentials('id_token_prv')
+        KEY_FILE = credentials('gcp_key_jenkins')
     }
 
 
