@@ -72,7 +72,7 @@ opipeline {
                     
                      sshagent([SSH_CREDENTIALS]) {
                         sh "ssh -o StrictHostKeyChecking=no mokrimmohamed2016@${GCP_INSTANCE_IP} '${sshCommand}'"
-                        echo 'gcp fin'
+                        
                     }
                 }
             }
