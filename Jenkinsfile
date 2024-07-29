@@ -62,16 +62,8 @@ opipeline {
                     
                     
                     // Commande SSH pour se connecter à l'instance GCP
-                    def sshCommand = """
-                        docker pull mokrim/test:nana
-                        docker stop my_container || true
-                        docker rm my_container || true
-                        docker run -d --name my_container -p 80:80 mokrim/test:${buildTag}
-                    """
-                    echo 'gcp start '
-                    
-                     sshagent([SSH_CREDENTIALS]) {
-                        sh "ssh -o StrictHostKeyChecking=no mokrimmohamed2016@${GCP_INSTANCE_IP} '${sshCommand}'"
+                   sh 'gcloud compute ssh --zone "us-central1-b" "instance-20240727-201048" --project "protean-depot-430512-d1" '
+                   echo 'reussi' 
                         
                     }
                 }
