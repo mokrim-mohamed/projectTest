@@ -34,7 +34,7 @@ pipeline {
         steps {
             script {
                     // Construire l'image Docker
-                sh 'docker build -t mokrim/test:${env.BUILD_NUMBER} .'
+                sh 'docker build -t mokrim/image:${env.BUILD_NUMBER} .'
                 echo 'image a ete cree'
 
                 }
