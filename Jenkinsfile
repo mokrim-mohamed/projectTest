@@ -69,7 +69,12 @@ pipeline {
                             gcloud auth activate-service-account --key-file="$GCP_KEY_FILE"
                             gcloud config set project "$CLOUDSDK_CORE_PROJECT"
                             gcloud compute instances list
-                            gcloud compute ssh --zone="us-central1-b" "instance-20240727-201048" -- "docker pull mokrim/test:latest && docker run -d -p 8080:8080 --name my_container mokrim/test:latest"
+                             docker stop my_container || true
+                                docker rm my_container || true
+                            gcloud compute ssh --zone="us-central1-b" "instance-20240727-201048" -- "
+                            docker stop my_container || true 
+                            docker rm my_container || true 
+                            docker pull mokrim/test:latest && docker run -d -p 8080:8080 --name my_container mokrim/test:latest"
 
                         '''
                     }
