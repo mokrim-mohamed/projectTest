@@ -16,7 +16,7 @@ pipeline {
         stage('Echo Message') {
             steps {
                 // Exemple de commande pour afficher un message
-                sh 'echo "Le code a été récupéré avec succès et le pipeline est en cours d'exécution."'
+                sh 'echo "Le code a été récupéré avec succès et le pipeline est en cours dexécution.'
             }
         }
     stage('Check Docker') {
