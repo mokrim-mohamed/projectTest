@@ -3,7 +3,7 @@ pipeline {
     environment{
         DOCKERHUB_CREDENTIALS=credentials('id_token_prv')
         SSH_CREDENTIALS = credentials('SSH_GCP')
-         GCP_INSTANCE_IP = '34.41.224.203'
+         GCP_INSTANCE_IP = '34.30.174.243'
         
     }
 
