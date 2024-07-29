@@ -3,7 +3,7 @@ pipeline {
     environment{
         DOCKERHUB_CREDENTIALS=credentials('id_token_prv')
         KEY_FILE = credentials('gcp_key_jenkins')
-        CLOUDSDK_CORE8PROJECT='protean-depot-430512-d1'
+        CLOUDSDK_CORE_PROJECT='protean-depot-430512-d1'
 
     }
 
