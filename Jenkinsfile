@@ -1,4 +1,4 @@
-pipeline {
+opipeline {
     agent any  // Utiliser n'importe quel agent disponible
     environment{
         DOCKERHUB_CREDENTIALS=credentials('id_token_prv')
@@ -68,11 +68,11 @@ pipeline {
                         docker rm my_container || true
                         docker run -d --name my_container -p 80:80 mokrim/test:${buildTag}
                     """
-                    sh 'echo gcp start '
+                    echo 'gcp start '
                     
                      sshagent([SSH_CREDENTIALS]) {
                         sh "ssh -o StrictHostKeyChecking=no mokrimmohamed2016@${GCP_INSTANCE_IP} '${sshCommand}'"
-                        sh 'echo gcp fin'
+                        echo 'gcp fin'
                     }
                 }
             }
